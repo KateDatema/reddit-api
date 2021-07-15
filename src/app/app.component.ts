@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import {ApiRedditService } from './apiReddit.service';
-import { Reddit } from './reddit';
+import { Subreddit, SubReddit } from './subReddit';
 import { Logger } from './logger.service';
-import { TopReddit } from './topReddit';
+import { TestBed } from '@angular/core/testing';
 
 @Component({
   selector: 'app-root',
@@ -11,27 +11,22 @@ import { TopReddit } from './topReddit';
   styleUrls: ['./app.component.css'],
   providers: [Logger, ApiRedditService]
 })
+
 export class AppComponent {
   title = 'RedditAPI';
-  topReddit: TopReddit | null = null;
+  reddit: SubReddit ={} as SubReddit
 
   constructor(private logger: Logger, private api: ApiRedditService) {}
 
-  redditCall() {
-    //in order to pull anything out of our call we need to subscribe
-    //which is how we pull out the resulting data
-    let response = this.api.getReddit();
+  getPost(sub:string, slice:number){
+    let response = this.api.getPosts(sub);
     console.log(response);
-
-
-  response.subscribe(
-    //data here represents data coming out of our observable 
-    //this variable should give us access to the JSON of our API result
-    (data: TopReddit) => this.topReddit=
-      { data : data.data,   
-      }
-
-  );
-  }
-
-}
+    
+    let output = response.subscribe(
+      (postlist: SubReddit) => this.reddit = 
+      {kind: postlist.kind, data: postlist.data});
+    
+      output.splice(0, slice);
+    
+    }
+    }

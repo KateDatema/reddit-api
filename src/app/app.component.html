@@ -1,8 +1,40 @@
-<button (click)="redditCall()">Reddit</button>
+<<html>
+    
+  <header>
+      <h1>Pauper's Reddit Lab</h1>
+  </header>
 
-<div *nffor TopReddit.data.children></div>
-<div *ngIf="reddit!==null">
-  <p>title: {{reddit.title}}</p>
-  <p>thumbnail {{reddit.thumbnail}}</p>
-  <p>url: {{reddit.url}}</p>
-</div>
+  <body>
+
+      <div class ="newDiv">
+          <form #searchForm="ngForm" (ngSubmit)="getPost(searchForm.form.value.sub, +'1')">
+              <label>Search for SubReddit</label><br>
+              <input type="text" name="sub" placeholder="Search for SubReddit" ngModel/>
+              <br>
+              <input type="submit" value="Show Results"/>
+          </form>
+          </div>
+
+          <div class="newDiv" *ngFor="let post of reddit.data.children|slice:0:1">
+              
+                  <h2>Top Post</h2>
+                  <hr>
+                  <h2>{{post.data.title}}</h2>
+                  <p>Author: {{post.data.author}}</p>
+                  <p><img src="{{post.data.thumbnail}}"></p>
+                  <p><a href="{{post.data.url}}">View Full Post</a></p>
+              
+                  
+              </div>
+
+              <div class ="newDiv" *ngFor="let post of reddit.data.children|slice:0:10; index as i ">
+                      <h2>{{post.data.title}}</h2>
+                      <hr>
+                      <p>Author: {{post.data.author}}</p>
+                      <p><img src="{{post.data.thumbnail}}"></p>
+                      <p><a href="{{post.data.url}}">View Full Post</a></p>
+              </div>
+
+              
+  </body>
+  </html>
